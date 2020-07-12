@@ -13,6 +13,7 @@ lxml = "*"
 jupyterlab = "*"
 seaborn = "*"
 matplotlib = "*"
+missingno = "*"
 
 [requires]
 python_version = "3.7"
