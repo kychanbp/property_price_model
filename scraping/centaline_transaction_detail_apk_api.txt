@@ -1,0 +1,1 @@
+curl -H 'userId: ff0a1e7e-73fa-459b-bc0d-f5acd0ba228c' -H 'lang: tc' -H 'Content-Type: application/json; charset=UTF-8' -H 'Connection: Keep-Alive' --compressed -H 'User-Agent: okhttp/4.7.2' -X POST https://hkapi.centanet.com/api/Transaction/Detail.json -d '{"data_source":"a","id":"20200724-AC-OTR0002020070001","platform":"android"}'
