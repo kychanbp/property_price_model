@@ -3,18 +3,15 @@ import json
 
 class TransactionsSpider(scrapy.spiders.CrawlSpider):
     name = "transactions"
-
-    def start_requests(self):
-        url = "https://hkapi.centanet.com/api/Transaction/Map.json" 
-
-        headers = {
+    url = "https://hkapi.centanet.com/api/Transaction/Map.json" 
+    url_details = "https://hkapi.centanet.com/api/Transaction/Detail.json"
+    headers = {
             'lang': 'tc',
             'Content-Type': 'application/json; charset=UTF-8',
             'Connection': 'Keep-Alive',
             'User-Agent': 'okhttp/4.7.2' 
         }
-
-        payload = {
+    first_payload = {
             "daterange": 180,
             "postType": "s",
             "refdate": "20200701",
@@ -36,19 +33,19 @@ class TransactionsSpider(scrapy.spiders.CrawlSpider):
             "platform": "android"
         }
 
-        yield scrapy.Request(url, callback=self.parse, method="POST", headers=headers, body=json.dumps(payload))
+    def start_requests(self):
+        """
+        Get the first page of transactions
+        """
+        yield scrapy.Request(self.url, callback=self.parse, method="POST", headers=self.headers, body=json.dumps(self.first_payload))
 
     def parse(self, response):
+        """
+        loop through all the pages
+        """
         json_response = json.loads(response.text)
 
-        total_pages = 3 #json_response['TransactionCount']//10000
-        url = "https://hkapi.centanet.com/api/Transaction/Map.json" 
-        headers = {
-            'lang': 'tc',
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Connection': 'Keep-Alive',
-            'User-Agent': 'okhttp/4.7.2' 
-        }
+        total_pages = 1 #json_response['TransactionCount']//10000
 
         for i in range(1, total_pages+1):
             page = i
@@ -57,8 +54,8 @@ class TransactionsSpider(scrapy.spiders.CrawlSpider):
                 "postType": "s",
                 "refdate": "20200701",
                 "order": "desc",
-                "page": f"{page}",
-                "pageSize": 1,
+                "page": page,
+                "pageSize": 2,
                 "pixelHeight": 2220,
                 "pixelWidth": 1080,
                 "points[0].lat": 22.695053063373795,
@@ -73,8 +70,27 @@ class TransactionsSpider(scrapy.spiders.CrawlSpider):
                 "zoom": 9.745128631591797,
                 "platform": "android"
             }
-            yield scrapy.Request(url, callback=self.parse_secondary_requests, method="POST", headers=headers, body=json.dumps(payload))
+            yield scrapy.Request(self.url, callback=self.parse_secondary_requests, method="POST", headers=self.headers, body=json.dumps(payload), dont_filter=True)
 
     def parse_secondary_requests(self, response):
+        """
+        Parse transactions to get the transaction id to request transaction details
+        """
         json_response = json.loads(response.text)
         yield json_response
+
+        for transaction in json_response["AItems"]:
+            transaction_id = transaction["TransactionID"]
+            data_source = transaction["Data_Source"].lower()
+            payload = {
+                "data_source": f"{data_source}",
+                "id": f"{transaction_id}",
+                "platform": "android" 
+            }
+            yield scrapy.Request(self.url_details, callback=self.parse_transaction_details, method="POST", headers=self.headers, body=json.dumps(payload))
+
+    def parse_transaction_details(self, response):
+        json_response = json.loads(response.text)
+        yield json_response
+
+        
