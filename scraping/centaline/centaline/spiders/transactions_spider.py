@@ -1,23 +1,39 @@
 import scrapy
 import json
+import math
+import pandas as pd
+from datetime import datetime
+import logging
 
 class TransactionsSpider(scrapy.spiders.CrawlSpider):
     name = "transactions"
     url = "https://hkapi.centanet.com/api/Transaction/Map.json" 
     url_details = "https://hkapi.centanet.com/api/Transaction/Detail.json"
+    page_size =  100
+    periods = 2
+    daterange = 180
+
     headers = {
             'lang': 'tc',
             'Content-Type': 'application/json; charset=UTF-8',
             'Connection': 'Keep-Alive',
             'User-Agent': 'okhttp/4.7.2' 
         }
-    first_payload = {
-            "daterange": 180,
+
+    def start_requests(self):
+        """
+        loop through all the date range
+        Get the first page of transactions
+        """
+        date_list = [d.strftime('%Y%m%d') for d in pd.date_range(datetime.today(), periods=self.periods, freq=f"-{self.daterange}D")]
+        for date in date_list:
+            first_payload = {
+            "daterange": self.daterange,
             "postType": "s",
-            "refdate": "20200701",
+            "refdate": date,
             "order": "desc",
             "page": 1,
-            "pageSize": 1,
+            "pageSize": self.page_size,
             "pixelHeight": 2220,
             "pixelWidth": 1080,
             "points[0].lat": 22.695053063373795,
@@ -31,31 +47,27 @@ class TransactionsSpider(scrapy.spiders.CrawlSpider):
             "sort": "score",
             "zoom": 9.745128631591797,
             "platform": "android"
-        }
-
-    def start_requests(self):
-        """
-        Get the first page of transactions
-        """
-        yield scrapy.Request(self.url, callback=self.parse, method="POST", headers=self.headers, body=json.dumps(self.first_payload))
+            }
+            yield scrapy.Request(self.url, callback=self.parse, method="POST", headers=self.headers, body=json.dumps(first_payload), meta={"refdate":date})
 
     def parse(self, response):
         """
         loop through all the pages
         """
+        refdate = response.meta["refdate"]
         json_response = json.loads(response.text)
 
-        total_pages = 1 #json_response['TransactionCount']//10000
+        total_pages = math.ceil(json_response['TransactionCount']/self.page_size)
 
         for i in range(1, total_pages+1):
             page = i
             payload = {
-                "daterange": 180,
+                "daterange": self.daterange,
                 "postType": "s",
-                "refdate": "20200701",
+                "refdate": f"{refdate}",
                 "order": "desc",
                 "page": page,
-                "pageSize": 2,
+                "pageSize": self.page_size,
                 "pixelHeight": 2220,
                 "pixelWidth": 1080,
                 "points[0].lat": 22.695053063373795,
