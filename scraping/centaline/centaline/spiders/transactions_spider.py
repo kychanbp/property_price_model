@@ -1,5 +1,5 @@
 import scrapy
-from ..items import CentalineTransactionsItem,CentalineTransactionsDetailItem
+from ..items import CentalineTransactionsItem,CentalineTransactionsDetailItem, CentalineBuildingInfo
 import json
 import math
 import pandas as pd
@@ -10,6 +10,7 @@ class TransactionsSpider(scrapy.spiders.CrawlSpider):
     name = "transactions"
     url = "https://hkapi.centanet.com/api/Transaction/Map.json" 
     url_details = "https://hkapi.centanet.com/api/Transaction/Detail.json"
+    url_building_info = "https://hkapi.centanet.com/api/PropertyInfo/Detail.json?cblgcode={}&cestcode={}&platform=android"
     page_size =  100
     periods = 2
     daterange = 1
@@ -192,5 +193,69 @@ class TransactionsSpider(scrapy.spiders.CrawlSpider):
         transaction_detail_items['hma_e'] = HMA['hma_e']
 
         yield transaction_detail_items
-
         
+        yield scrapy.Request(self.url_building_info.format(transaction['Cblgcode'], transaction['Cestcode']) , callback=self.parse_building_info, method="POST", headers=self.headers)
+
+    def parse_building_info(self, response):
+        building_info = CentalineBuildingInfo()
+
+        json_response = json.loads(response.text)
+        building = json_response['Building']
+
+        building_info['intcestcode'] = building['intcestcode']
+        building_info['bigest'] = building['bigest']
+        building_info['bigestcode'] = building['bigestcode']
+        building_info['centaest'] = building['centaest']
+        building_info['cestcode'] = building['cestcode']
+        building_info['centabldg'] = building['centabldg']
+        building_info['cblgcode'] = building['cblgcode']
+        building_info['ThumbnailPath'] = building['ThumbnailPath']
+        building_info['geo_refno'] = building['geo_refno']
+        building_info['bpolycode'] = building['bpolycode']
+        building_info['usage'] = building['usage']
+        building_info['e_estate'] = building['e_estate']
+        building_info['e_phase'] = building['e_phase']
+        building_info['e_property'] = building['e_property']
+        building_info['pe_blgnm1'] = building['pe_blgnm1']
+        building_info['pe_blgnm2'] = building['pe_blgnm2']
+        building_info['pe_addr'] = building['pe_addr']
+        building_info['c_estate'] = building['c_estate']
+        building_info['c_phase'] = building['c_phase']
+        building_info['c_property'] = building['c_property']
+        building_info['pc_blgnm1'] = building['pc_blgnm1']
+        building_info['pc_blgnm2'] = building['pc_blgnm2']
+        building_info['pc_sbnm'] = building['pc_sbnm']
+        building_info['pc_addr'] = building['pc_addr']
+        building_info['opdate'] = building['opdate']
+        building_info['blg_age'] = building['blg_age']
+        building_info['unit_cnt'] = building['unit_cnt']
+        building_info['x_cnt'] = building['x_cnt']
+        building_info['y_cnt'] = building['y_cnt']
+        building_info['tpu'] = building['tpu']
+        building_info['centadist'] = building['centadist']
+        building_info['c_dist'] = building['c_dist']
+        building_info['e_dist'] = building['e_dist']
+        building_info['clu_ccode'] = building['clu_ccode']
+        building_info['scp_id'] = building['scp_id']
+        building_info['scp_c'] = building['scp_c']
+        building_info['scp_e'] = building['scp_e']
+        building_info['scp_mkt'] = building['scp_e']
+        building_info['scp_cpa'] = building['scp_cpa']
+        building_info['scp_rica'] = building['scp_rica']
+        building_info['pc_street'] = building['pc_street']
+        building_info['pe_street'] = building['pe_street']
+        building_info['pc_stno'] = building['pc_stno']
+        building_info['pe_stno'] = building['pe_stno']
+        building_info['lux_final'] = building['lux_final']
+        building_info['lpt_x'] = building['lpt_x']
+        building_info['lpt_y'] = building['lpt_y']
+        building_info['Lng'] = building['Lng']
+        building_info['Lat'] = building['Lat']
+        building_info['x_axis'] = building['x_axis']
+        building_info['x_axis2'] = building['x_axis2']
+        building_info['y_axis'] = building['y_axis']
+        building_info['y_axis2'] = building['y_axis2']
+        building_info['ppt_rank'] = building['ppt_rank']
+        building_info['est_type'] = building['est_type']
+        
+        yield building_info
