@@ -62,9 +62,12 @@ CONCURRENT_REQUESTS = 100
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'centaline.pipelines.CentalinePipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'centaline.pipelines.MultiCSVItemPipeline': 300,
+}
+
+# Output files directory
+FILE_DIR = "/home/johnchan/Documents/Codes/property_price_model/staging_area/"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
