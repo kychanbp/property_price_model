@@ -55,7 +55,7 @@ CONCURRENT_REQUESTS = 100
 #}
 
 # Enable or disable extensions
-# See https://docs.scrapy.org/en/latest/topics/extensions.html
+# See https://docs.scrapy.org/edef __init__(self, file_dir):
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
@@ -65,9 +65,6 @@ CONCURRENT_REQUESTS = 100
 ITEM_PIPELINES = {
     'centaline.pipelines.MultiCSVItemPipeline': 300,
 }
-
-# Output files directory
-FILE_DIR = "/home/johnchan/Documents/Codes/property_price_model/staging_area/"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -89,3 +86,11 @@ FILE_DIR = "/home/johnchan/Documents/Codes/property_price_model/staging_area/"
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# Output files directory
+FILE_DIR = "/home/johnchan/Documents/Codes/property_price_model/staging_area/"
+
+# crawl setting
+PAGE_SIZE = 100
+PERIODS = 2
+DATERANGE = 180 # centaline api: the records within a certain amount of daterange

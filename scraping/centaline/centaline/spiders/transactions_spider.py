@@ -1,4 +1,5 @@
 import scrapy
+from scrapy.utils.project import get_project_settings
 from ..items import CentalineTransactionsItem,CentalineTransactionsDetailItem, CentalineBuildingInfo
 import json
 import math
@@ -11,9 +12,6 @@ class TransactionsSpider(scrapy.spiders.CrawlSpider):
     url = "https://hkapi.centanet.com/api/Transaction/Map.json" 
     url_details = "https://hkapi.centanet.com/api/Transaction/Detail.json"
     url_building_info = "https://hkapi.centanet.com/api/PropertyInfo/Detail.json?cblgcode={}&cestcode={}&platform=android"
-    page_size =  100
-    periods = 2
-    daterange = 1
 
     headers = {
             'lang': 'tc',
@@ -21,6 +19,11 @@ class TransactionsSpider(scrapy.spiders.CrawlSpider):
             'Connection': 'Keep-Alive',
             'User-Agent': 'okhttp/4.7.2' 
         }
+
+    settings = get_project_settings()
+    page_size = settings.get("PAGE_SIZE")
+    periods = settings.get("PERIODS")
+    daterange = settings.get("DATERANGE")
 
     def start_requests(self):
         """
