@@ -1,0 +1,25 @@
+Item,Description
+TransactionID,Unique ID
+IsRelated,Unknown
+RegDateString,Registration Data in DD/MM/YYY format
+CblgCode,Block Code
+CestCode,Estate Code
+Data_Source,Unknown
+Memorial,Unknown
+RegDate,Registration Date in YYYY-MM-DD HH:MM:SS
+InsDate,Unknown
+PostType,S
+Price,Price
+Rental,0
+RFT_NArea,實用面積　（尺）
+RFT_UPrice,實用尺價
+INT_GArea,建築面積（尺）
+INT_UPrice,建築尺價
+CX,Room Number
+CY,"Level (High, Mid, Low)"
+c_estate,Chinese Estate Name
+c_phase,Chinese Phase Name
+c_property,Chinese Block Name
+scp_c,Chinese Districts
+scp_mkt,"Chinese Region (HK, KLN, etc)"
+pc_addr,Street Address
