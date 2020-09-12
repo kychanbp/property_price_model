@@ -15,6 +15,7 @@ seaborn = "*"
 matplotlib = "*"
 missingno = "*"
 scrapy = "*"
+scikit-learn = "*"
 
 [requires]
 python_version = "3.7"
