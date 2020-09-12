@@ -1,0 +1,56 @@
+Item,Description
+intcestcode,cestcode
+bigest,null
+bigestcode,null
+centaest,unknown (some kind of code)
+cestcode,chinese estate code
+centabldg,unknown (some kind of code)
+cblgcode,chinese block code
+ThumbnailPath,url
+geo_refno,unknown (some kind of code)
+bpolycode,unknown (some kind of code)
+usage,"usage of the building (RH,etc)"
+e_estate,same as before
+e_phase,same as before
+e_property,same as before
+pe_blgnm1,address down to block level
+pe_blgnm2,address down to buildling level
+pe_addr,address down to street level
+c_estate,same as before
+c_phase,same as before
+c_property,same as before
+pc_blgnm1,chinese version of pe_blgnm1
+pc_blgnm2,chinese version of pe_blgnm2
+pc_sbnm,chinese version of pe_blgnm2 (slightly different only)
+pc_addr,chinese version of pe_addr
+opdate,入伙日期
+blg_age,age of the block
+unit_cnt,單位數目
+x_cnt,每層伙數
+y_cnt,層數
+tpu,unknown
+centadist,district code
+c_dist,chinese district
+e_dist,english district
+clu_ccode,subdistrict code
+scp_id,district code
+scp_c,chinese district
+scp_e,english district
+scp_mkt,unknown
+scp_cpa,unknown
+scp_rica,unknown
+pc_street,chinese street name
+pe_street,english street name
+pc_stno,street no
+pe_stno,street no
+lux_final,unknown (luxury?)
+lpt_x,Hong Kong Coodinate
+lpt_y,Hong Kong Coordaite
+Lng,Lng
+Lat,Lat
+x_axis,unknown
+x_axis2,unknown
+y_axis,unknown
+y_axis2,unknown
+ppt_rank,unknown
+est_type,"type of estate (normal,etc)"

@@ -1,0 +1,50 @@
+Item,Description
+ID,transaction id 
+Bigestcode,unknown
+Cestcode,estate code
+Cblgcode,block cod
+ThumbnailUrl,url
+Consider,price
+Elocation1,unknown
+X_Axis,eng room number
+Y_Axis,eng level
+CX_Axis,room number
+CY_Axis,level
+Rft_NArea,same as transaction item
+Rft_UPrice,same as transaction item
+Int_Garea,same as transaction item
+Int_Uprice,same as transaction iutem
+Memorial,Unknown
+Reg_Date,not equal to Ins_Date
+Ins_Date,Reg Date in Transaction Item
+Int_BlgAge,Age of the building
+RegAddr,unknown
+Data_Source,Unknown
+PostType,S
+NameTC,"the name describing the property: estate, property, level, room"
+scp_c,chinese district name
+scp_e,english district name
+c_estate,chinese estate name
+e_estate,english estate name
+c_phase,chinese phase
+e_phase,english phase
+c_property,chinese block name
+e_property,english block name
+pc_addr,chinese address
+pe_addr,english address
+Est_Type,"type of the estate (single, etc)"
+HMA_type,unknown
+code,unknown
+est_type,"type of the estate (single, etc)"
+dbcode,code of district
+dbc,district (chinese)
+dbe,district (english)
+bldggpid,null
+bldggp_c,null
+bldggp_e,null
+url,null
+hma_id,id of the region (the region is smaller than 18 districts)
+HMA_Lng,longtitude (114.)
+HMA_Lat,latitide (22.)
+hma_c,region (chinese)
+hma_e,region (english)
