@@ -26,7 +26,7 @@ def run(fold):
     error = math.sqrt(metrics.mean_squared_log_error(y_valid, preds))
     print(f"Fold={fold}, RMSLE={error}")
 
-    joblib.dump(neigh, f"../models/dt_{fold}.bin")
+    joblib.dump(neigh, f"../models/dt_{fold}.joblib")
 
 if __name__ == "__main__":
     run(fold=0)
