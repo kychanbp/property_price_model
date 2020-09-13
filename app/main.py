@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from joblib import load
 from pydantic import BaseModel
 
@@ -12,6 +13,21 @@ def get_prediction(HMA_Lat,HMA_Lng,blg_age):
     return {'prediction':y}
 
 app = FastAPI()
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ModelParams(BaseModel):
     HMA_lat:float
