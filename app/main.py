@@ -19,6 +19,7 @@ origins = [
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:8080",
+    "http://propertypricemodelapp-env.eba-57bfj6kd.ap-southeast-1.elasticbeanstalk.com"
 ]
 
 app.add_middleware(
